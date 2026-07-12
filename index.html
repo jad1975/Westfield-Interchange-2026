@@ -1334,7 +1334,26 @@ renderTable();
 // No DOM restructuring — body class drives show/hide
 // ═══════════════════════════════════════════════════
 (function initMobile(){
+
+  // Debug: show screen width on screen so we can see what the phone reports
+  const dbg = document.createElement('div');
+  dbg.id = 'mob-debug';
+  dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#C5952A;color:#000;font-size:13px;font-family:monospace;padding:4px 8px;text-align:center';
+  dbg.textContent = 'W=' + window.innerWidth + ' mob=' + (window.innerWidth <= 700);
+  document.body.appendChild(dbg);
+
   if (window.innerWidth > 700) return;
+
+  // Force tab bar visible via inline style (overrides all CSS)
+  const tabBar = document.querySelector('.mob-tabs');
+  if (tabBar) {
+    tabBar.style.cssText = [
+      'display:flex','position:fixed','bottom:0','left:0','right:0',
+      'z-index:9000','background:#0D1B3E',
+      'border-top:2px solid rgba(197,149,42,0.5)',
+      'padding-bottom:env(safe-area-inset-bottom)'
+    ].join(';');
+  }
 
   // Show mobile-only elements
   document.getElementById('mob-upcoming').style.display = 'block';
